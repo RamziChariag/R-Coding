@@ -1,5 +1,6 @@
 # Lecture 6 script
 
+<<<<<<< HEAD
 # 1. Notes on Assignment 3
 # 2. No assignment next week
 # 3. Team presentation
@@ -7,6 +8,10 @@
 
 # This week: how to read in data
 # Next week: how to join data
+=======
+# This class: how to read in data
+# Next class: how to join data
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # From then on, explore various topics (and non-tidyverse)
 
 # Ceci n'est pas a tibble

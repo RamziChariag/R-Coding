@@ -1,4 +1,5 @@
 # Lecture 3 Script
+<<<<<<< HEAD
 # First choose a new team for next week
 library(readr)
 dir <- Sys.getenv("R_CODING")
@@ -8,6 +9,13 @@ sample_n(student_first_names,4)
 
 # Follows Grolemund and Wickham, chapter 5
 
+=======
+
+# git push/pull dance for practice
+# Recap from ggplot, with data from two datasets on the same plot
+
+# Follows Grolemund and Wickham, chapter 5
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # Install the dataset if you don't have it
 # install.packages("nycflights13")
@@ -16,7 +24,11 @@ flights
 ?flights
 View(flights)
 view(flights)
+<<<<<<< HEAD
 ?view
+=======
+?view # confusing that this works -- it is not loaded, that's why it fails, while utils::View(flights) does work
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 library(tidyverse)
 # Today, we'll cover
@@ -41,7 +53,11 @@ library(tidyverse)
 filter(flights, month = 1) # Produces an error
 filter(flights, month == 1)
 filter(flights, month == 1, day == 1)
+<<<<<<< HEAD
 filter(flights, dep_time == 517)
+=======
+filter(flights, dep_time == 517) # What format is dep_time in?
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # dplyr functions don't change the data frame that you give it. They return a new one.
 flights
@@ -66,13 +82,20 @@ near(sqrt(2)^2, 2)
 # Exercise: What counts as near? Find out. Can you change it?
 
 # Multiple constraints
+<<<<<<< HEAD
 # |: is 'or' operator
 (jan_feb <- filter(flights, month == 1 | month == 2))
+=======
+# '|' is 'or' operator
+(jan_feb <- filter(flights, month == 1 | month == 2))
+# '!' is the 'not' operator
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 (not_jan <- filter(flights, !(month == 1)))
 
 # Class exercise: How do we know these actually worked?
 filter(not_jan, month == 1)
 View(jan_feb)
+<<<<<<< HEAD
 unique(not_jan$month)
 jan <- filter(flights, month == 1)
 nrow(flights) == nrow(jan) + nrow(not_jan)
@@ -81,6 +104,16 @@ nrow(flights) == nrow(jan) + nrow(not_jan)
 jan_to_june2 <- filter(flights, month %in% c(1,2,3,4,5,6))
 # Check same number of observations
 nrow(jan_to_june1) == nrow(jan_to_june2)
+=======
+unique(not_jan$month) # $ chooses the column
+jan <- filter(flights, month == 1)
+nrow(flights) == nrow(jan) + nrow(not_jan)
+
+(jan_to_june <- filter(flights, month <= 6))
+jan_to_june_again <- filter(flights, month %in% c(1,2,3,4,5,6))
+# Check same number of observations
+nrow(jan_to_june) == nrow(jan_to_june_again)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # Class Exercise: What does this do?
 mystery_filter <- filter(flights, !(arr_delay > 120 | dep_delay > 120))
@@ -100,11 +133,16 @@ mystery_filter2
 # 3. All flights that started less than 120 minutes late or landed less than 120 minutes late
 # 4. All flights that started and landed less than 120 minutes late
 
+<<<<<<< HEAD
+=======
+# How to convince ourselves? could use row_number() to add row_number and check the same row numbers are in both filters
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # Class Exercise: Get the filter command for number 3 above
 # 3. All flights that started less than 120 minutes late or landed less than 120 minutes late
 number3 <- filter(flights, arr_delay <= 120 | dep_delay <= 120)
 number3 <- filter(flights, arr_delay < 120 | dep_delay < 120)
 
+<<<<<<< HEAD
 
 # Class Exercise: get all flights that departed with less than 120 minutes delay,
 # but arrived with more than 120 minutes delay.
@@ -123,6 +161,18 @@ ggplot(data = flights,
 
 # Let's look at the data to see what the departure was for planes that arrived 
 # late but didn't start quite as late
+=======
+# Class Exercise: get all flights that departed with less than 120 minutes delay,
+# but arrived with more than 120 minutes delay.
+dep_ok_arr_not <- filter(flights, dep_delay <= 120, arr_delay > 120)
+
+ggplot(data = dep_ok_arr_not,
+       mapping = aes(x = dep_delay)) +
+  geom_histogram()
+
+# Let's look at the data to see what the departure was for planes that arrived 
+# late in general
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 ggplot(data = flights,
        mapping = aes(x = dep_delay)) + 
   geom_histogram()
@@ -176,7 +226,11 @@ arrange(flights, desc(dep_delay))
 arrange(df, x)
 arrange(df, desc(x))
 
+<<<<<<< HEAD
 # Class exercise (do at home): How can we get the missing values at the top?
+=======
+# Class exercise (do at home): How can we get the missing values at the top? Use `is.na()`
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 
 # Fastest flight
@@ -198,8 +252,14 @@ flights %>%
   arrange(air_time) %>%
   select(air_time, origin, dest)
 
+<<<<<<< HEAD
 # Notice that the data doesn't have to be mentioned, 
 # and the first argument should not have to be provided
+=======
+# Notice that the data doesn't have to be mentioned in the call, 
+# it gets used as the first argument automatically. Therefore
+# the first argument should not be provided
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 select(flights, year:day)
 # Same as ..
@@ -214,6 +274,15 @@ select(flights, starts_with("arr"))
 select(flights, -starts_with("arr"))
 select(flights, ends_with("hour"))
 select(flights, -contains("time"))
+<<<<<<< HEAD
+=======
+# What does the following do? Is that as expected?
+select(flights, -contains("time"), starts_with("arr"))
+# If you want those that satisfy both conditions, need two calls
+flights %>% 
+  select(-contains("time")) %>%
+  select(starts_with("arr"))
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # For more do
 ?select
 
@@ -228,6 +297,7 @@ select(flights, origin, dest, everything())
 
 # Class Exercise: What happens if you include a variable multiple times?
 
+<<<<<<< HEAD
 ## Assignment 4
 
 # ## Resources
@@ -253,3 +323,8 @@ select(flights, origin, dest, everything())
 # Create similar output to Grolemund and Wickham, i.e. show what the output is of various commands.
 # 
 # See (Discourse)[https://discourse.trichotomy.xyz/t/week-4-assignment-description/89/2] for an example of what counts as a step.
+=======
+# ## Resources
+# 
+# - If you have no experience coding, this may be helpful: https://rstudio-education.github.io/hopr/
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0

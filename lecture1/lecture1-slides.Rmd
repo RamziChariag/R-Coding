@@ -14,7 +14,11 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+<<<<<<< HEAD
 # Coding 1: Data Management and Analysis with R
+=======
+# Introduction to Data Analysis in R
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 ## Who am I?
 

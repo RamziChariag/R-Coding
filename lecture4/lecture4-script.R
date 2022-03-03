@@ -1,4 +1,5 @@
 # Lecture 4 Script
+<<<<<<< HEAD
 # First choose a new team for next week
 
 library(readr)
@@ -8,6 +9,8 @@ library(tidyverse)
 sample_n(student_first_names, 4)
 
 # What if we get the same students as before? How should we do this?
+=======
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # Let's continue with chapter 5
 
@@ -27,12 +30,22 @@ View(flights)
 
 mutate(flights_small, 
        catchup = dep_delay - arr_delay,
+<<<<<<< HEAD
        speed_miles = (distance/air_time) * 60
        )
+=======
+       speed_miles = (distance/air_time) * 60)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # No one knows what speed in miles is, let's fix that
 # minutes_per_hour <- 60
 
+<<<<<<< HEAD
+=======
+mutate(flights_small,
+       speed_km = (distance * 1.61/air_time) * 60)
+
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # Magic numbers. Great, every one loves them. They are evil.
 KM_PER_MILE <- 1.61
 
@@ -43,15 +56,23 @@ mutate(flights_small,
 mutate(flights_small,
        distance_km = distance * KM_PER_MILE,
        air_time_hours = air_time / 60,
+<<<<<<< HEAD
        speed_km = distance_km / air_time_hours
        )
+=======
+       speed_km = distance_km / air_time_hours)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # transmute only keeps new variables
 transmute(flights_small,
        distance_km = distance * KM_PER_MILE,
        air_time_hours = air_time / 60,
+<<<<<<< HEAD
        speed_km = distance_km / air_time_hours
        )
+=======
+       speed_km = distance_km / air_time_hours)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # You cannot use all transformations inside mutate.
 # It has to be vectorized: it takes a vector and returns a vector of the same length
@@ -67,8 +88,12 @@ transmute(flights_small,
 transmute(flights,
           dep_time,
           dep_hour = dep_time %/% 100,
+<<<<<<< HEAD
           dep_minutes = dep_time %% 100
           )
+=======
+          dep_minutes = dep_time %% 100)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # log(), log2(), log10() work
 
@@ -105,6 +130,11 @@ y <- c(10, 5, 6, 3, 7)
 min_rank(y)
 
 # Can you figure out from playing around with min_rank() how it works exactly?
+<<<<<<< HEAD
+=======
+min_rank(c(y, 7))
+rank(c(y, 7))
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # So, what is not a vectorized operation?
 c(2,4)^2 # This is vectorized
@@ -112,7 +142,10 @@ kk <- function(x) { x[3]}
 kk(1:5) # not vectorized
 mean(x)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # What happens when we try this on a dataframe
 transmute(flights, delay = mean(arr_delay, na.rm = TRUE))
 transmute(flights, delay = kk(arr_delay))
@@ -165,7 +198,11 @@ by_day
 summarise(
   group_by(flights, year, month, day), 
   delay = mean(dep_delay, na.rm = TRUE)
+<<<<<<< HEAD
   )
+=======
+)
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 
 # 5.6.1
 # Let's explore link between distance and average delay for every location
@@ -174,6 +211,7 @@ summarise(
 # is related to the delay to this location.
 
 by_destination <- group_by(flights, dest)
+<<<<<<< HEAD
 delay <- summarise(by_destination,
                    delay = mean(arr_delay, na.rm = TRUE))
 delay
@@ -194,6 +232,32 @@ p + geom_point() + geom_smooth()
 
 p <- ggplot(data = delay,
             mapping = aes(x = distance, y = delay))
+=======
+flights_delay <- summarise(
+  by_destination,
+  avg_arr_delay = mean(arr_delay, na.rm = TRUE)
+)
+flights_delay
+
+# OK, we need the distance too, or else there is not much to plot.
+(flights_delay <- summarise(
+  by_destination,
+  avg_arr_delay = mean(arr_delay, na.rm = TRUE),
+  distance = mean(distance, na.rm = TRUE) # Somewhat of a hack
+))
+
+p <- ggplot(data = flights_delay,
+            mapping = aes(x = distance, y = avg_arr_delay))
+p + geom_point() + geom_smooth()
+
+(flights_delay <- summarise(by_destination,
+                    count = n(), 
+                    avg_arr_delay = mean(arr_delay, na.rm = TRUE),
+                    distance = mean(distance, na.rm = TRUE)))
+
+p <- ggplot(data = flights_delay,
+            mapping = aes(x = distance, y = avg_arr_delay))
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 p + geom_point(mapping = aes(size = count), alpha = 0.2) +
   geom_smooth()
 
@@ -203,16 +267,31 @@ p + geom_point(mapping = aes(size = count), alpha = 0.2) +
 
 # Finally...
 
+<<<<<<< HEAD
 
 # Optional exercise as part of assignment 5 (somewhat harder): The above does not take into account 
 # the number of flights per location. A location with 1 flight matters as much
+=======
+# Optional exercise as part of assignment 2 (somewhat harder): The above smoothing does not take into account 
+# the number of flights per location - we only plot points by weight. A location with 1 flight matters as much
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # for smoothing as a location with 300. 
 # That is rarely what we want when smoothing globally. Read the following code,
 # to see if you understand how it works. Explain in your words in the .Rmd file.
 
 # Let's plot the original data, without first taking means by group
 # Woah, that looks different! (And ugly.)
+<<<<<<< HEAD
 
+=======
+p2 <- ggplot(data = flights,
+             mapping = aes(x = distance, y = arr_delay))
+p2 + geom_point(alpha = 0.2) + geom_smooth()
+
+# Now let's plot points by location as before, but run geom_smooth on whole dataset
+p2 + geom_point(data = flights_delay, aes(y = avg_arr_delay, size = count), alpha = 0.3) +
+  geom_smooth()
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # So, not too misleading, but still...
 # END OF EXERCISE
 
@@ -225,7 +304,11 @@ p + geom_point(mapping = aes(size = count), alpha = 0.2) +
 delays <- flights %>% 
   group_by(dest) %>%
   summarise(
+<<<<<<< HEAD
     delay = mean(arr_delay, na.rm = TRUE),
+=======
+    avg_arr_delay = mean(arr_delay, na.rm = TRUE),
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
     count = n(),
     distance = mean(distance, na.rm = TRUE)
     ) %>%
@@ -250,7 +333,11 @@ not_missing <- flights %>%
 ## Start with freqpoly, then zoom in on that part of the graph that we are interested
 not_missing %>%
   group_by(tailnum) %>%
+<<<<<<< HEAD
   summarise(delay = mean(dep_delay)) %>%
+=======
+  summarise(avg_delay = mean(dep_delay)) %>%
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
   ggplot(mapping = aes(x = delay)) + 
   geom_histogram(binwidth = 10)
 
@@ -261,9 +348,15 @@ not_missing %>%
   group_by(tailnum) %>%
   summarise(
     count = n(),
+<<<<<<< HEAD
     delay = mean(arr_delay)
     ) %>%
   ggplot(mapping = aes(x = delay, y = count)) + 
+=======
+    avg_delay = mean(arr_delay)
+    ) %>%
+  ggplot(mapping = aes(x = avg_delay, y = count)) + 
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
   geom_point(alpha = 0.1)
          
 ## Since I need to filter the same thing, all the time 
@@ -272,11 +365,16 @@ not_missing_planes <- not_missing %>%
   group_by(tailnum) %>%
   summarise(
     count = n(),
+<<<<<<< HEAD
     delay = mean(arr_delay),
+=======
+    avg_delay = mean(arr_delay),
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
     delay_median = median(arr_delay)
     )
   
 
+<<<<<<< HEAD
 # Get the median delay for each ariplane
 ggplot(data = not_missing_planes) + 
   geom_histogram(mapping = aes(x = delay_median)) + 
@@ -288,10 +386,18 @@ not_missing_planes %>%
   ggplot(mapping = aes(x = delay)) + 
   geom_histogram()
 
+=======
+# Get the median delay for each airplane
+ggplot(data = not_missing_planes) + 
+  geom_histogram(mapping = aes(x = delay_median)) + 
+  geom_histogram(mapping = aes(x = avg_delay), color = 'yellow', alpha = 0.3)
+  
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # Filter the airplanes that fly rarely and pipe them into 
 # ggplot which gets plussed into geoms
 # Try a few values for how many flights one should have done
 
+<<<<<<< HEAD
 # Assignment 5: 
 
 # 1. Do the exercises in this script file and work through the examples we 
@@ -299,10 +405,39 @@ not_missing_planes %>%
 # upload the .html and .pdf.
 
 # 2. Read/skim the chapter 5 from 'R for Data Science' to see what is available.
+=======
+not_missing_planes %>%
+  filter(count > 5) %>%
+  ggplot(mapping = aes(x = avg_delay)) + 
+  geom_histogram()
+
+# ## Assignment 2
+# 
+# 1. Read/Skim Chapter 5 of Grolemund and Wickham parts 1 through 4 (including select) of Grolemund and Wickham for anything we did not cover. We will cover the remaining parts next week.
+# 2. Do all the exercises from this week in lecture3-script.R and lecture4-script.R. Put them (with title/statement of exercise) 
+#    in a single .Rmd, and solutions in code chunks. 
+# 3. Repeat the steps from chapter 5 in parts 1 through 3, but using hotels data instead of the nycflights data. You
+#    can load the data as follows (assuming you run this script from within the folder lecture3/:
+hotels_vienna <- read_csv("../da_data_repo/hotels-vienna/clean/hotels-vienna.csv")
+# Since the two datasets don't have the same columns, either pick some variable you'd like to filter on and see results on, or use the following suggested mapping:
+# Repeat every step for which Grolemund and Wickham show the output - thus ignore all the exercises, or options they mention without.
+#   - When filtering (etc) on month for flights, use stars in the hotels data
+#   - Instead of flight duration, use hotel price
+#   - For travel times, use distance (you can reuse distance for different types of time)
+# 
+# Example: Instead of doing
+# filter(flights, month == 1)
+# you should do
+# filter(hotels, stars == <some-number-you-like>)
+# Create similar output to Grolemund and Wickham, i.e. show what the output is of various commands.
+# 
+# 4. Read/skim the chapter 5 from 'R for Data Science' to see what is available.
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
 # Don't try to remember everything, but you should be able to remember what is 
 # possible so that you can find the commands again should you need them in the 
 # future. 
 
+<<<<<<< HEAD
 # 3. Grade Assignment 4 of your peers.
 
 # 4. Document at least 10 errors and warnings you actually hit during the week. 
@@ -317,3 +452,11 @@ not_missing_planes %>%
 # comparing the city to Vienna in terms of any variables you find interesting.
 # Three plots maximum, don't spend more than 30 minutes on the analysis, before
 # writing it down (if you are not doing this in parallel).
+=======
+# 5. Grade Assignment 1 of your peers.
+
+# 6. Document 4 errors and warnings you actually hit during the week. 
+# If you do *not* hit that many errors or receive such warnings, congratulations.
+
+# Put all the parts requiring text or code into a single .Rmd file, knit it to a pdf file, and upload the pdf to the submission server.
+>>>>>>> a2a1a67ce522965d661f5c51169377d35318e6f0
