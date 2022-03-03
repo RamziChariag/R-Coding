@@ -108,11 +108,18 @@ number3 <- filter(flights, arr_delay < 120 | dep_delay < 120)
 
 # Class Exercise: get all flights that departed with less than 120 minutes delay,
 # but arrived with more than 120 minutes delay.
-dep_ok_arr_not <- filter(flights, dep_delay <= 120, arr_delay > 120)
+(dep_ok_arr_not <- filter(flights, dep_delay <= 120, arr_delay > 120))
 
 ggplot(data = dep_ok_arr_not,
-       mapping = aes(x = dep_delay)) +
-  geom_histogram()
+       mapping = aes(x = dep_delay)) + 
+  geom_histogram(aes(y=..density..), colour = 'orange', fill = 'orange') +
+  geom_density(alpha = 0.2, colour = 'blue', size = 1)
+
+  
+library('scales')
+ggplot(data = flights,
+       mapping = aes(x = dep_time)) +
+        geom_density()
 
 # Let's look at the data to see what the departure was for planes that arrived 
 # late but didn't start quite as late
